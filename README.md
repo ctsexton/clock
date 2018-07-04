@@ -1,6 +1,6 @@
 # clock
 
-> A clock app with settings
+> A simple clock app with user-controlled settings to customize the appearance. Settings autosave to localstorage so that changes persist on page reload.
 
 ## Build Setup
 

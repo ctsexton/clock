@@ -9,26 +9,6 @@
   text-align: center;
   width: 100%;
 }
-.settings-bar {
-  position: absolute;
-  height: 100vh;
-  width: 400px;
-  top: 0;
-  left: -400px;
-  transition: left 500ms;
-  background-color: white;
-}
-.settingsBar__reveal {
-  left: 0;
-}
-.settings-icon {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  right: -60px;
-  width: 60px;
-  padding: 10px;
-}
 .title
 {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
@@ -61,18 +41,4 @@
 }
 .searchbar:focus::placeholder {
   color: transparent;
-}
-ul {
-  text-align: left;
-}
-li {
-  list-style: none;
-  display: block;
-  margin: 10px 0;
-}
-.color-box {
-  display: inline-block;
-  min-height: 1em;
-  min-width: 50px;
-  margin: 0 0 0 20px;
 }
