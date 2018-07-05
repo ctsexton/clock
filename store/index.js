@@ -7,16 +7,31 @@ const createStore = () => {
       settings: {
         page: {
           fontSize: '100px',
-          color: '#35495e',
-          bgColor: '#dddddd',
+          color: '#c4c0b3',
+          bgColor: '#c4c0b3',
         },
         title: {
           fontSize: '100px',
-          color: '#35495e',
+          color: '#1c3d60',
         },
         subtitle: {
           fontSize: '100px',
-          color: '#35495e',
+          color: '#5e7084',
+        },
+      },
+      defaultSettings: {
+        page: {
+          fontSize: '100px',
+          color: '#c4c0b3',
+          bgColor: '#c4c0b3',
+        },
+        title: {
+          fontSize: '100px',
+          color: '#1c3d60',
+        },
+        subtitle: {
+          fontSize: '100px',
+          color: '#5e7084',
         },
       }
     },
@@ -33,6 +48,9 @@ const createStore = () => {
           // Replace settings with stored
           state.settings = JSON.parse(localStorage.getItem('clock-settings'));
         }
+      },
+      resetSettings (state) {
+        state.settings = state.defaultSettings;
       }
     },
   })

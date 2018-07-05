@@ -1,8 +1,12 @@
 <template lang="pug">
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .subtitle.settings-title Settings
-  ColorOption(v-for='obj in colorSettings' :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
-  img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
+  ColorOption(v-for='obj in colorSettings' :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+  button.resetButton(v-on:click='reset') Reset To Defaults
+  .icons
+    img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
+    img.pointer-icon(v-if='firstOpen' src='@/static/arrow.png')
+    .icon-text(v-if='firstOpen') Click Here to Change Appearance!
 </template>
 <script>
 import ColorOption from '@/components/ColorOption';
@@ -25,8 +29,19 @@ export default {
     toggleSettings: function () {
       this.settingsOpen = !this.settingsOpen;
     },
+    reset: function () {
+      this.$store.commit('resetSettings');
+      //console.log('reset!!');
+    }
   },
   computed: {
+    firstOpen () {
+      if (!localStorage.getItem('clock-settings') && !this.settingsOpen) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     colorSettings () {
       return [
         { 
@@ -62,13 +77,31 @@ export default {
 .settingsBar__reveal {
   left: 0;
 }
+.icons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 0;
+}
 .settings-icon {
   position: absolute;
-  cursor: pointer;
   top: 0;
-  right: -60px;
+  left: 0;
   width: 60px;
   padding: 10px;
+  cursor: pointer;
+}
+.pointer-icon {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 75px;
+}
+.icon-text {
+  position: absolute;
+  top: 100px;
+  left: 125px;
+  width: 200px;
 }
 .settings-title {
   background-color: white;
@@ -79,5 +112,19 @@ export default {
   min-height: 1em;
   min-width: 50px;
   margin: 0 0 0 20px;
+}
+.resetButton {
+  width: 100%;
+  display: block;
+  font-size: 16px;
+  line-height: 3em;
+  background: #000;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+.resetButton:hover {
+  background-color: #333;
+
 }
 </style>
