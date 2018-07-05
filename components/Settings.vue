@@ -1,17 +1,15 @@
 <template lang="pug">
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
-  .subtitle Settings
-  ul
-    li Background Color:
-      input.choose-color(type='color' data-path='["page", "bgColor"]' @input="updateColor" :value='bgColor') 
-    li Clock Color:
-      input.choose-color(type='color' data-path='["title", "color"]' @input="updateColor" :value='clockColor')
-    li Date/Location Color:
-      input.choose-color(type='color' data-path='["subtitle", "color"]' @input="updateColor" :value='dateLocColor')
+  .subtitle.settings-title Settings
+  ColorOption(v-for='obj in colorSettings' :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
   img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
 </template>
 <script>
+import ColorOption from '@/components/ColorOption';
 export default {
+  components: {
+    ColorOption
+  },
   props: {
     settings: {
       type: Object,
@@ -27,25 +25,27 @@ export default {
     toggleSettings: function () {
       this.settingsOpen = !this.settingsOpen;
     },
-    updateColor: function (e) {
-      let info = {
-        color: e.target.value,
-        path: e.target.dataset.path
-      };
-      this.$store.commit('updateColor', info);
-    }
   },
   computed: {
-    bgColor () {
-      return this.$store.state.settings.page.bgColor;
-    },
-    clockColor () {
-      return this.$store.state.settings.title.color;
-    },
-    dateLocColor () {
-      return this.$store.state.settings.subtitle.color;
+    colorSettings () {
+      return [
+        { 
+          label: 'Background Color',
+          dataset: ["page", "bgColor"],
+          val: this.$store.state.settings.page.bgColor
+        },
+        { 
+          label: 'Clock Color',
+          dataset: ["title", "color"],
+          val: this.$store.state.settings.title.color
+        },
+        { 
+          label: 'Date/Location Color',
+          dataset: ["subtitle", "color"],
+          val: this.$store.state.settings.subtitle.color
+        },
+      ];
     }
-
   },
 }
 </script>
@@ -57,7 +57,7 @@ export default {
   top: 0;
   left: -400px;
   transition: left 500ms;
-  background-color: white;
+  background-color: #999;
 }
 .settingsBar__reveal {
   left: 0;
@@ -70,13 +70,9 @@ export default {
   width: 60px;
   padding: 10px;
 }
-ul {
-  text-align: left;
-}
-li {
-  list-style: none;
-  display: block;
-  margin: 10px 0;
+.settings-title {
+  background-color: white;
+  padding: 10px;
 }
 .color-box {
   display: inline-block;

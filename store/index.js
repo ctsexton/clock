@@ -25,7 +25,7 @@ const createStore = () => {
         state.counter++
       },
       updateColor (state, info) {
-        let path = JSON.parse(info.path);
+        let path = info.settingsPath;
         state.settings[path[0]][path[1]] = info.color;
       },
       initialiseSettings (state) {
