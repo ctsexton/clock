@@ -2,6 +2,7 @@
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .subtitle.settings-title Settings
   ColorOption(v-for='obj in colorSettings' :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+  FontOption(:label="fontSettings.label" :settingsPath="fontSettings.dataset" :fontVal="fontSettings.val")
   button.resetButton(v-on:click='reset') Reset To Defaults
   .icons
     img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
@@ -10,9 +11,11 @@
 </template>
 <script>
 import ColorOption from '@/components/ColorOption';
+import FontOption from '@/components/FontOption';
 export default {
   components: {
-    ColorOption
+    ColorOption,
+    FontOption
   },
   props: {
     settings: {
@@ -60,6 +63,13 @@ export default {
           val: this.$store.state.settings.subtitle.color
         },
       ];
+    },
+    fontSettings () {
+      return {
+        label: 'Font Size',
+        dataset: ["title", "fontSize"],
+        val: this.$store.state.settings.title.fontSize
+      }
     }
   },
 }

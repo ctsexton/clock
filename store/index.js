@@ -11,7 +11,7 @@ const createStore = () => {
           bgColor: '#c4c0b3',
         },
         title: {
-          fontSize: '100px',
+          fontSize: '100',
           color: '#1c3d60',
         },
         subtitle: {
@@ -26,7 +26,7 @@ const createStore = () => {
           bgColor: '#c4c0b3',
         },
         title: {
-          fontSize: '100px',
+          fontSize: '100',
           color: '#1c3d60',
         },
         subtitle: {
@@ -43,14 +43,18 @@ const createStore = () => {
         let path = info.settingsPath;
         state.settings[path[0]][path[1]] = info.color;
       },
+      updateFont (state, info) {
+        let path = info.settingsPath;
+        state.settings[path[0]][path[1]] = info.fontSize;
+      },
       initialiseSettings (state) {
         if(localStorage.getItem('clock-settings')) {
           // Replace settings with stored
-          state.settings = JSON.parse(localStorage.getItem('clock-settings'));
+          Object.assign(state.settings, JSON.parse(localStorage.getItem('clock-settings')));
         }
       },
       resetSettings (state) {
-        state.settings = state.defaultSettings;
+        state.settings = JSON.parse(JSON.stringify(state.defaultSettings));
       }
     },
   })
