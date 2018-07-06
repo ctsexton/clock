@@ -1,8 +1,8 @@
 <template lang="pug">
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .subtitle.settings-title Settings
-  ColorOption(v-for='obj in colorSettings' :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
-  FontOption(:label="fontSettings.label" :settingsPath="fontSettings.dataset" :fontVal="fontSettings.val")
+  ColorOption(v-for="obj in colorSettings" :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+  FontOption(v-for="obj in fontSettings" :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :fontVal="obj.val")
   button.resetButton(v-on:click='reset') Reset To Defaults
   .icons
     img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
@@ -65,11 +65,18 @@ export default {
       ];
     },
     fontSettings () {
-      return {
-        label: 'Font Size',
-        dataset: ["title", "fontSize"],
-        val: this.$store.state.settings.title.fontSize
-      }
+      return [
+        {
+          label: 'Clock Size',
+          dataset: ["title", "fontSize"],
+          val: this.$store.state.settings.title.fontSize
+        },
+        {
+          label: 'Date Size',
+          dataset: ["subtitle", "fontSize"],
+          val: this.$store.state.settings.subtitle.fontSize
+        }
+      ];
     }
   },
 }

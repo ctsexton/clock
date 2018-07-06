@@ -4,6 +4,15 @@
   input.slider(type='range' min="1" max="200" :data-settingspath='settingsPath' :value='fontVal' @input="updateFont") 
 </template>
 <script>
+var _ = require('lodash');
+let updateThrottle = _.throttle(function (e) { 
+  let arr = e.target.dataset.settingspath.split(",");
+  let info = {
+    fontSize: e.target.value,
+    settingsPath: arr
+  };
+  this.$store.commit('updateFont', info);
+}, 70);
 export default {
   props: {
     label: {
@@ -21,13 +30,8 @@ export default {
   },
   methods: {
     updateFont: function (e) {
-      let arr = e.target.dataset.settingspath.split(",");
-      let info = {
-        fontSize: e.target.value,
-        settingsPath: arr
-      };
-      this.$store.commit('updateFont', info);
-    }
+      updateThrottle.call(this, e);
+    },
   },
 }
 </script>

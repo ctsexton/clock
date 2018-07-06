@@ -2,7 +2,7 @@
   div
     .container(:style='{backgroundColor: $store.state.settings.page.bgColor}')
       .title(:style="{color: $store.state.settings.title.color, fontSize: $store.state.settings.title.fontSize + 'px'}") {{ time }}
-      .subtitle(:style='{color: $store.state.settings.subtitle.color}') {{ date }}
+      .subtitle(:style="{color: $store.state.settings.subtitle.color, fontSize: $store.state.settings.subtitle.fontSize + 'px'}") {{ date }}
       .subtitle(:style='{color: $store.state.settings.subtitle.color}') Los Angeles, California
       input.searchbar(type='text' placeholder='Search Google')
       Settings

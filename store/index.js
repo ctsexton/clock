@@ -15,7 +15,7 @@ const createStore = () => {
           color: '#1c3d60',
         },
         subtitle: {
-          fontSize: '100px',
+          fontSize: '42',
           color: '#5e7084',
         },
       },
@@ -30,7 +30,7 @@ const createStore = () => {
           color: '#1c3d60',
         },
         subtitle: {
-          fontSize: '100px',
+          fontSize: '42',
           color: '#5e7084',
         },
       }
