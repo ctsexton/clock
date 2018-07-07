@@ -1,12 +1,13 @@
 <template lang="pug">
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
-  .subtitle.settings-title Settings
-  .locator-container
-    input.locator(type="text" :placeholder="timeZone_readable")
-  div(v-for="obj, index in colorSettings" :key="obj.label")
-    ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
-    FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
-  button.resetButton(v-on:click='reset') Reset To Defaults
+  .settings-panel
+    .subtitle.settings-title Settings
+    .locator-container
+      input.locator(type="text" :placeholder="timeZone_readable")
+    div(v-for="obj, index in colorSettings" :key="obj.label")
+      ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+      FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
+    button.resetButton(v-on:click='reset') Reset To Defaults
   .icons
     img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
     img.pointer-icon(v-if='firstOpen' src='@/static/arrow.png')
@@ -110,7 +111,12 @@ export default {
   top: 0;
   left: -400px;
   transition: left 500ms;
-  background-color: #999;
+  background-color: #555;
+}
+.settings-panel {
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
 }
 .settingsBar__reveal {
   left: 0;

@@ -42,19 +42,20 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 5px 0 10px;
   font-size: 16px;
   line-height: 2em;
-  border-top: solid 1px #aaa;
-  background-color: #ddd;
+  background-color: transparent;
 }
 .text {
   text-align: left;
+  color: white;
 
 }
 .sizeSlider {
   width: 80%;
   background: #bbb;
-  height: 25px;
+  height: 20px;
+  border-radius: 10px;
 }
 </style>

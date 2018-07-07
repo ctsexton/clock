@@ -18,8 +18,9 @@
     appearance: none;
     width: 25px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
-    background: rgba(0,0,0,0.7); /* Green background */
+    background: #eee; /* Green background */
     border: 1px solid #aaa;
+    border-radius: 50%;
     cursor: pointer; /* Cursor on hover */
 }
 
@@ -27,9 +28,9 @@
     -moz-appearance: none;
     width: 25px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
-    background: rgba(0,0,0,0.7); /* Green background */
+    background: #eee; /* Green background */
     border: 1px solid #aaa;
-    border-radius: 0;
+    border-radius: 50%;
     cursor: pointer; /* Cursor on hover */
 }
 .slider::-moz-range-track {
