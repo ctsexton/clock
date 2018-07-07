@@ -2,8 +2,8 @@
   div
     .container(:style="{background: `hsl(${bg.hue}, ${bg.saturation}%, ${bg.lightness}%)`}")
       .title(:style="{color: `hsl(${clockColor.hue}, ${clockColor.saturation}%, ${clockColor.lightness}%)`, fontSize: $store.state.settings.title.fontSize + 'px'}") {{ time }}
-      .subtitle(:style="{color: $store.state.settings.dateTitle.color, fontSize: $store.state.settings.dateTitle.fontSize + 'px'}") {{ date }}
-      .subtitle(:style="{color: $store.state.settings.locationTitle.color, fontSize: $store.state.settings.locationTitle.fontSize + 'px'}") Los Angeles, California
+      .subtitle(:style="{color: `hsl(${dateColor.hue}, ${dateColor.saturation}%, ${dateColor.lightness}%)`, fontSize: $store.state.settings.dateTitle.fontSize + 'px'}") {{ date }}
+      .subtitle(:style="{color: `hsl(${locationColor.hue}, ${locationColor.saturation}%, ${locationColor.lightness}%)`, fontSize: $store.state.settings.locationTitle.fontSize + 'px'}") Los Angeles, California
       input.searchbar(type='text' placeholder='Search Google')
       Settings
 </template>
@@ -12,6 +12,14 @@
 import Logo from '~/components/Logo.vue'
 import Settings from '@/components/Settings.vue'
 
+let objColor = function (path) {
+  let obj = path;
+  return {
+    hue: obj.color.hue,
+    saturation: obj.color.saturation,
+    lightness: obj.color.lightness
+  }
+}
 export default {
   components: {
     Settings
@@ -33,17 +41,25 @@ export default {
   },
   computed: {
     bg () {
+      let obj = this.$store.state.settings.page;
       return {
-        hue: this.$store.state.settings.page.bgColor.hue,
-        saturation: this.$store.state.settings.page.bgColor.saturation,
-        lightness: this.$store.state.settings.page.bgColor.lightness
+        hue: obj.bgColor.hue,
+        saturation: obj.bgColor.saturation,
+        lightness: obj.bgColor.lightness
       }
     },
     clockColor () {
+      return objColor(this.$store.state.settings.title);
+    },
+    dateColor () {
+      return objColor(this.$store.state.settings.dateTitle);
+    },
+    locationColor () {
+      let obj = this.$store.state.settings.locationTitle;
       return {
-        hue: this.$store.state.settings.title.color.hue,
-        saturation: this.$store.state.settings.title.color.saturation,
-        lightness: this.$store.state.settings.title.color.lightness
+        hue: obj.color.hue,
+        saturation: obj.color.saturation,
+        lightness: obj.color.lightness
       }
     },
   },
@@ -55,7 +71,9 @@ export default {
       localStorage.setItem('clock-settings', JSON.stringify(this.$store.state.settings));
     });
 
-    this.$store.commit('initialiseSettings');
   },
+  beforeCreate: function () {
+    this.$store.commit('initialiseSettings');
+  }
 }
 </script>

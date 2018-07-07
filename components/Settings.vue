@@ -4,7 +4,6 @@
   div(v-for="obj, index in colorSettings" :key="obj.label")
     ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
     FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
-    //span {{ fontSettings[index].label }}
   button.resetButton(v-on:click='reset') Reset To Defaults
   .icons
     img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
@@ -36,7 +35,6 @@ export default {
     },
     reset: function () {
       this.$store.commit('resetSettings');
-      //console.log('reset!!');
     }
   },
   computed: {
@@ -50,22 +48,22 @@ export default {
     colorSettings () {
       return [
         { 
-          label: 'Background Color',
+          label: 'Background',
           dataset: ["page", "bgColor"],
           val: this.$store.state.settings.page.bgColor
         },
         { 
-          label: 'Clock Color',
+          label: 'Time',
           dataset: ["title", "color"],
           val: this.$store.state.settings.title.color
         },
         { 
-          label: 'Date Color',
+          label: 'Date',
           dataset: ["dateTitle", "color"],
           val: this.$store.state.settings.dateTitle.color
         },
         { 
-          label: 'Location Color',
+          label: 'Location',
           dataset: ["locationTitle", "color"],
           val: this.$store.state.settings.locationTitle.color
         },

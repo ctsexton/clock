@@ -54,8 +54,8 @@ export default {
   justify-content: space-between;
   width: 100%;
   padding: 0 20px;
-  font-size: 16px;
-  line-height: 3em;
+  font-size: 20px;
+  line-height: 2em;
   border-top: solid 1px #aaa;
   background-color: #ddd;
 }
@@ -65,8 +65,8 @@ export default {
 }
 .choose-color {
   display: inline-block;
-  min-height: 40px;
-  min-width: 40px;
+  min-height: 1.5em;
+  min-width: 1.5em;
   border: none;
   margin: 0;
   padding: 0;
