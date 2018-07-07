@@ -6,6 +6,7 @@ const createStore = () => {
       counter: 0,
       defaultSettings: {},
       settings: {
+        timeZone: 'Australia/Melbourne',
         page: {
           fontSize: '100px',
           color: '#c4c0b3',

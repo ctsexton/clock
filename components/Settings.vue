@@ -1,6 +1,8 @@
 <template lang="pug">
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .subtitle.settings-title Settings
+  .locator-container
+    input.locator(type="text" :placeholder="timeZone_readable")
   div(v-for="obj, index in colorSettings" :key="obj.label")
     ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
     FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
@@ -19,9 +21,13 @@ export default {
     FontOption
   },
   props: {
-    settings: {
-      type: Object,
-      required: false
+    timeZone: {
+      type: String,
+      required: true
+    },
+    timeZone_readable: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -158,5 +164,20 @@ export default {
 .resetButton:hover {
   background-color: #333;
 
+}
+.locator-container {
+  display: block;
+  background: white;
+  width: 100%;
+  font-size: 16px;
+  padding: 0.5em;
+  border-top: 1px solid black;
+}
+.locator {
+  width: 100%;
+  height: 2em;
+  border: 1px solid #bbb;
+  font-size: 16px;
+  padding: 5px;
 }
 </style>

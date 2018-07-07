@@ -3,9 +3,9 @@
 > A simple clock app with user-controlled settings to customize the appearance. Settings autosave to localstorage so that changes persist on page reload.
 
 ### To Do:
- - Connect Google search
  - Make location selector in settings
  - Make design responsive for all screen sizes
+ - refactor components to keep all settings data together and create open/closing option boxes
 
 ## Build Setup
 
