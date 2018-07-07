@@ -1,26 +1,27 @@
 <template lang="pug">
 .locator-container
-  input.locator(type="text" :placeholder="timeZone_readable" @keydown.enter="selectZone" @focus="inputFlag = 1" @blur="inputFlag = 0" @input="searchStr = $event.target.value")
+  input.locator(
+    type="text" 
+    :placeholder="timeZone_readable" 
+    @keydown.enter="selectZone" 
+    @keydown.down="down"
+    @keydown.up="up"
+    @focus="inputFlag = 1" 
+    @blur="inputFlag = 0" 
+    @input="searchInput = $event.target.value"
+  )
   .autocomplete
-    .item(v-for="zone, index in autoComplete" :class="{highlighted: isActive(index)}") {{ zone }}
+    .item(v-for="zone, index in suggestions" :class="{highlighted: isActive(index)}") {{ zone.place }}
 </template>
 <script>
 let zones = require('countries-and-timezones');
-let timeZones = zones.getAllTimezones();
-let zoneArray = Object.keys(timeZones);
+let timezones = zones.getAllTimezones();
+let zoneNames = Object.keys(timezones);
+// convert string To Title Case
 let toTitleCase = function (str) {
     return str.replace(/\w\S*/g, function(txt){
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
-};
-let toReadable = function (str) {
-  let arr = str.split("/");
-  return arr[1].split("_").join(" ") + ', ' + arr[0]; 
-};
-let toFormatted = function (str) {
-  let arr = str.split(",");
-  arr = arr.map(el => {return el.trim().replace(" ", "_")});
-  return arr.reverse().join("/");
 };
 
 export default {
@@ -37,43 +38,68 @@ export default {
   data () {
     return {
       inputFlag: 0,
-      searchStr: '',
+      searchInput: '',
       selectedItem: 0
     }
   },
   methods: {
-    selectZone: function (e) {
-      zone = toFormatted(e.target.value);
-      if (timeZones.includes(zone)) {
+    // upon hitting enter, selected zone in input array is set
+    selectZone: function () {
+      // remove this and replace with referance to zone array
+      let zone = this.suggestions[this.selectedItem].tZ;
+
+      // commit zone to store
+      if (zoneNames.includes(zone)) {
         this.$store.commit('updateTZ', zone);
+      } else {
       }
     },
     isActive: function (index) {
       return this.selectedItem === index;
     },
+    down: function () {
+      if (this.selectedItem < this.suggestions.length - 1) {
+        this.selectedItem++;
+      }
+    },
+    up: function () {
+      if (this.selectedItem > 0) {
+        this.selectedItem--;
+      }
+    },
     search: function (searchString) {
-      searchString = toFormatted(searchString).toUpperCase();
+      searchString = searchString.toUpperCase();
       let results = [];
       if (searchString && this.inputFlag) {
-        results = zoneArray.filter((zone) => {
+        results = zoneNames.filter((zone) => {
           return zone.toUpperCase().indexOf(searchString) !== -1;
         });
       }
-      let countries = results.map((zone) => {
-        return zones.getCountriesForTimezone(zone)[0].name;
-      });
-      let cities = results.map((zone) => {
-        return toTitleCase(zone.split("/")[1].replace("_", " "));
-      });
-      let formatted = cities.map((city, index) => {
-        return city + ', ' + countries[index];
-      });
-      return formatted;
+      // side effect - set selected result to first item on every search query
+      this.selectedItem = 0;
+      // returns a list of raw timezones matching the search string
+      return results;
+    },
+    
+    // convert timezone to human readable add city here??
+    toReadable: function (zone) {
+      let arr = zone.split("/");
+      let city = toTitleCase(arr[1].split("_").join(" "));
+      let country = zones.getCountriesForTimezone(zone)[0].name;
+      return city + ', ' + country;
     },
   },
   computed: {
-    autoComplete () {
-      return this.search(this.searchStr);
+    // contains array of autcomplete suggestions
+    suggestions () {
+      let list = this.search(this.searchInput);
+      list = list.map((el) => {
+        return {
+          tZ: el,
+          place: this.toReadable(el)
+        }});
+      return list;
+
     },
   }
 }
