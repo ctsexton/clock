@@ -1,8 +1,10 @@
 <template lang="pug">
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .subtitle.settings-title Settings
-  ColorOption(v-for="obj in colorSettings" :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
-  FontOption(v-for="obj in fontSettings" :key="obj.label" :label="obj.label" :settingsPath="obj.dataset" :fontVal="obj.val")
+  div(v-for="obj, index in colorSettings" :key="obj.label")
+    ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+    FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
+    //span {{ fontSettings[index].label }}
   button.resetButton(v-on:click='reset') Reset To Defaults
   .icons
     img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
@@ -58,23 +60,38 @@ export default {
           val: this.$store.state.settings.title.color
         },
         { 
-          label: 'Date/Location Color',
-          dataset: ["subtitle", "color"],
-          val: this.$store.state.settings.subtitle.color
+          label: 'Date Color',
+          dataset: ["dateTitle", "color"],
+          val: this.$store.state.settings.dateTitle.color
+        },
+        { 
+          label: 'Location Color',
+          dataset: ["locationTitle", "color"],
+          val: this.$store.state.settings.locationTitle.color
         },
       ];
     },
     fontSettings () {
       return [
         {
-          label: 'Clock Size',
+          label: null,
+          dataset: null,
+          val: null
+        },
+        {
+          label: 'Size',
           dataset: ["title", "fontSize"],
           val: this.$store.state.settings.title.fontSize
         },
         {
-          label: 'Date Size',
-          dataset: ["subtitle", "fontSize"],
-          val: this.$store.state.settings.subtitle.fontSize
+          label: 'Size',
+          dataset: ["dateTitle", "fontSize"],
+          val: this.$store.state.settings.dateTitle.fontSize
+        },
+        {
+          label: 'Size',
+          dataset: ["locationTitle", "fontSize"],
+          val: this.$store.state.settings.locationTitle.fontSize
         }
       ];
     }

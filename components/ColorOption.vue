@@ -1,10 +1,16 @@
 <template lang="pug">
-.setting-container
-  .text {{ label }}
-  input.choose-color(type='color' :data-settingspath='settingsPath' :value='colorVal' @input="updateColor") 
+div
+  .setting-container
+    .text {{ label }}
+    .choose-color(:style="{background: `hsl(${hueVal}, ${satVal}%, ${lightVal}%)`}") 
+  ColorSlider(v-on:transmit="updateColor" :element='settingsPath' :hueVal="hueVal" :satVal="satVal" :lightVal="lightVal")
 </template>
 <script>
+import ColorSlider from "@/components/ColorSlider"
 export default {
+  components: {
+    ColorSlider
+  },
   props: {
     label: {
       type: String,
@@ -15,20 +21,29 @@ export default {
       required: true
     },
     colorVal: {
-      type: String,
+      type: Object,
       required: true
     }
   },
   methods: {
-    updateColor: function (e) {
-      let arr = e.target.dataset.settingspath.split(",");
-      let info = {
-        color: e.target.value,
-        settingsPath: arr
-      };
-      this.$store.commit('updateColor', info);
+    updateColor: function (message) {
+      this.$store.commit('updateColor', message);
+    },
+    postHue: function (value) {
+      console.log(value);
     }
   },
+  computed: {
+    hueVal () {
+      return this.colorVal.hue;
+    },
+    satVal () {
+      return this.colorVal.saturation;
+    },
+    lightVal () {
+      return this.colorVal.lightness;
+    }
+  }
 }
 </script>
 <style scoped>
@@ -52,9 +67,8 @@ export default {
   display: inline-block;
   min-height: 40px;
   min-width: 40px;
-  margin: 0 0 0 20px;
   border: none;
-}
-input {
+  margin: 0;
+  padding: 0;
 }
 </style>

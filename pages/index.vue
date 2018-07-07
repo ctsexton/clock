@@ -1,9 +1,9 @@
 <template lang='pug'>
   div
-    .container(:style='{backgroundColor: $store.state.settings.page.bgColor}')
-      .title(:style="{color: $store.state.settings.title.color, fontSize: $store.state.settings.title.fontSize + 'px'}") {{ time }}
-      .subtitle(:style="{color: $store.state.settings.subtitle.color, fontSize: $store.state.settings.subtitle.fontSize + 'px'}") {{ date }}
-      .subtitle(:style='{color: $store.state.settings.subtitle.color}') Los Angeles, California
+    .container(:style="{background: `hsl(${bg.hue}, ${bg.saturation}%, ${bg.lightness}%)`}")
+      .title(:style="{color: `hsl(${clockColor.hue}, ${clockColor.saturation}%, ${clockColor.lightness}%)`, fontSize: $store.state.settings.title.fontSize + 'px'}") {{ time }}
+      .subtitle(:style="{color: $store.state.settings.dateTitle.color, fontSize: $store.state.settings.dateTitle.fontSize + 'px'}") {{ date }}
+      .subtitle(:style="{color: $store.state.settings.locationTitle.color, fontSize: $store.state.settings.locationTitle.fontSize + 'px'}") Los Angeles, California
       input.searchbar(type='text' placeholder='Search Google')
       Settings
 </template>
@@ -29,6 +29,22 @@ export default {
     },
     getDate: function () {
       this.date = new Date().toLocaleString('en-US', {timeZone: 'America/Los_Angeles', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+    },
+  },
+  computed: {
+    bg () {
+      return {
+        hue: this.$store.state.settings.page.bgColor.hue,
+        saturation: this.$store.state.settings.page.bgColor.saturation,
+        lightness: this.$store.state.settings.page.bgColor.lightness
+      }
+    },
+    clockColor () {
+      return {
+        hue: this.$store.state.settings.title.color.hue,
+        saturation: this.$store.state.settings.title.color.saturation,
+        lightness: this.$store.state.settings.title.color.lightness
+      }
     },
   },
   mounted: function () {
