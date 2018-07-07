@@ -27,7 +27,6 @@ export default {
   },
   data () {
     return {
-      date: '',
       time: '',
     }
   },
@@ -36,11 +35,12 @@ export default {
       this.time = new Date().toLocaleString('en-US', {timeZone: this.timeZone, hour: 'numeric', minute: 'numeric', second: 'numeric'});
       setTimeout(this.getTime, 1000);
     },
-    getDate: function () {
-      this.date = new Date().toLocaleString('en-US', {timeZone: this.timeZone, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
-    },
   },
   computed: {
+    date () {
+      return new Date().toLocaleString('en-US', {timeZone: this.timeZone, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+
+    },
     timeZone () {
       return this.$store.state.settings.timeZone;
     },
@@ -74,7 +74,6 @@ export default {
   },
   mounted: function () {
     this.getTime();
-    this.getDate();
 
     this.$store.subscribe((mutation, state) => {
       localStorage.setItem('clock-settings', JSON.stringify(this.$store.state.settings));

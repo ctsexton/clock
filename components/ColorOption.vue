@@ -53,8 +53,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 20px;
-  font-size: 20px;
+  padding: 0 10px;
+  font-size: 18px;
   line-height: 2em;
   border-top: solid 1px #aaa;
   background-color: #ddd;

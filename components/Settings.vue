@@ -2,8 +2,7 @@
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .settings-panel
     .subtitle.settings-title Settings
-    .locator-container
-      input.locator(type="text" :placeholder="timeZone_readable")
+    Locator(:timeZone="timeZone" :timeZone_readable="timeZone_readable")
     div(v-for="obj, index in colorSettings" :key="obj.label")
       ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
       FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
@@ -16,10 +15,12 @@
 <script>
 import ColorOption from '@/components/ColorOption';
 import FontOption from '@/components/FontOption';
+import Locator from '@/components/Locator';
 export default {
   components: {
     ColorOption,
-    FontOption
+    FontOption,
+    Locator
   },
   props: {
     timeZone: {
@@ -104,6 +105,7 @@ export default {
 }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300');
 .settings-bar {
   position: absolute;
   height: 100vh;
@@ -112,6 +114,7 @@ export default {
   left: -400px;
   transition: left 500ms;
   background-color: #555;
+  font-family: 'Comfortaa', sans-serif;
 }
 .settings-panel {
   position: relative;
@@ -166,24 +169,10 @@ export default {
   color: white;
   cursor: pointer;
   border: none;
+  font-family: 'Comfortaa', sans-serif;
 }
 .resetButton:hover {
   background-color: #333;
 
-}
-.locator-container {
-  display: block;
-  background: white;
-  width: 100%;
-  font-size: 16px;
-  padding: 0.5em;
-  border-top: 1px solid black;
-}
-.locator {
-  width: 100%;
-  height: 2em;
-  border: 1px solid #bbb;
-  font-size: 16px;
-  padding: 5px;
 }
 </style>

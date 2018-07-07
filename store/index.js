@@ -62,6 +62,9 @@ const createStore = () => {
         let path = info.settingsPath;
         state.settings[path[0]][path[1]] = info.fontSize;
       },
+      updateTZ (state, input) {
+        state.settings.timeZone = input;
+      },
       initialiseSettings (state) {
         setTimeout(function () {
           state.defaultSettings = JSON.parse(JSON.stringify(state.settings));
