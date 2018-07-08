@@ -1,9 +1,8 @@
 # clock
 
-> A simple clock app with user-controlled settings to customize the appearance. Settings autosave to localstorage so that changes persist on page reload.
+> Built with Vue.js and Vuex. Responsive UI that adapts to all screen sizes. Click the cog icon to access the settings panel. All changes are auto-saved to local storage - so the user can reload the page or even restart their browser and keep their settings... without requiring a sign-up process. Neat!
 
 ### To Do:
- - Make design responsive for all screen sizes
  - refactor components to keep all settings data together and create open/closing option boxes
 
 ## Build Setup
