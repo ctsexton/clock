@@ -2,14 +2,13 @@
 .locator-container
   input.locator(
     type="text" 
-    :value="placeholder" 
+    :placeholder="placeholder" 
     @keydown.enter="selectZone" 
     @keydown.down="down"
     @keydown.up="up"
     @focus="inputFlag = 1" 
     @blur="onBlur" 
     @input="input"
-    @click="clear"
     ref="locationInput"
   )
   .autocomplete
@@ -47,8 +46,6 @@ export default {
       searchInput: '',
       // currently selected in dropdown
       selectedItem: 0,
-      // current placeholder text
-      placeholder: ''
     }
   },
   methods: {
@@ -61,7 +58,7 @@ export default {
       // commit zone!
       this.commitZone(zone);
       // blur input
-      setTimeout(this.$refs.locationInput.blur(),1000);
+      this.$refs.locationInput.blur();
     },
     commitZone: function (zone) {
       // commit zone to store
@@ -70,19 +67,12 @@ export default {
       }
     },
     onBlur: function () {
-      setTimeout(() => {
-        this.inputFlag = 0;
-        this.searchInput = '';
-        this.setPlaceholder();
-      }, 0);
-    },
-    setPlaceholder: function () {
-      // load timezone into placeholder
-      this.placeholder = this.timeZone.place;
-      this.$refs.locationInput.value = '';
+      this.inputFlag = 0;
+      this.searchInput = '';
+      this.clear();
     },
     clear: function () {
-      this.placeholder = '';
+      this.$refs.locationInput.value = '';
     },
     hoverZone: function (index) {
       this.selectedItem = index;
@@ -126,7 +116,7 @@ export default {
     // convert timezone to human readable add city here??
     toReadable: function (zone) {
       let arr = zone.split("/");
-      let city = toTitleCase(arr[1].split("_").join(" "));
+      let city = toTitleCase(arr[arr.length - 1].split("_").join(" "));
       let country = zones.getCountriesForTimezone(zone)[0].name;
       return city + ', ' + country;
     },
@@ -142,10 +132,10 @@ export default {
         }});
       return list;
     },
+    placeholder () {
+      return this.timeZone.place;
+    },
   },
-  mounted () {
-    this.setPlaceholder();
-  }
 }
 </script>
 <style scoped>

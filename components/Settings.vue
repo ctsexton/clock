@@ -101,7 +101,7 @@ export default {
 }
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:300');
+@import url('https://fonts.googleapis.com/css?family=Sunflower:300');
 .settings-bar {
   position: absolute;
   height: 100vh;
@@ -109,8 +109,8 @@ export default {
   top: 0;
   left: -400px;
   transition: left 500ms;
-  background-color: #555;
-  font-family: 'Comfortaa', sans-serif;
+  background-color: #443939;
+  font-family: 'Sunflower', sans-serif;
 }
 .settings-panel {
   position: relative;
@@ -165,7 +165,7 @@ export default {
   color: white;
   cursor: pointer;
   border: none;
-  font-family: 'Comfortaa', sans-serif;
+  font-family: 'Sunflower', sans-serif;
 }
 .resetButton:hover {
   background-color: #333;
