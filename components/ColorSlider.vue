@@ -2,7 +2,7 @@
 .color-panel
   input.color-wheel.slider(v-on:input="transmit" :value="hueVal" :data-type="'hue'" :data-element="element" type="range" min="0" max="360" :style="{backgroundImage: `linear-gradient(90deg, hsl(0, 100%, 50%), hsl(30, 100%, 50%), hsl(60, 100%, 50%), hsl(90, 100%, 50%), hsl(120, 100%, 50%), hsl(150, 100%, 50%), hsl(180, 100%, 50%), hsl(210, 100%, 50%), hsl(240, 100%, 50%), hsl(270, 100%, 50%), hsl(300, 100%, 50%), hsl(330, 100%, 50%), hsl(360, 100%, 50%))`}")
   input.color-wheel.slider(v-on:input="transmit" :data-type="'saturation'" :data-element="element" type="range" min="0" max="100" :value="satVal" :style="{backgroundImage: `linear-gradient(90deg, hsl(${hueVal}, 0%, ${lightVal}%), hsl(${hueVal}, 100%, ${lightVal}%))`}")
-  input.color-wheel.slider(v-on:input="transmit" :data-type="'lightness'" :data-element="element" type="range" min="0" max="100" :style="{backgroundImage: `linear-gradient(90deg, hsl(${hueVal}, ${satVal}%, 0%), hsl(${hueVal}, ${satVal}%, 100%))`}")
+  input.color-wheel.slider(v-on:input="transmit" :data-type="'lightness'" :data-element="element" type="range" min="0" max="100" :value="lightVal" :style="{backgroundImage: `linear-gradient(90deg, hsl(${hueVal}, ${satVal}%, 0%), hsl(${hueVal}, ${satVal}%, 100%))`}")
 </template>
 <script>
 export default {

@@ -1,16 +1,18 @@
 <template lang="pug">
-.settings-bar(:class='{settingsBar__reveal: settingsOpen}')
-  .settings-panel
-    .subtitle.settings-title Settings
-    Locator(:timeZone="timeZone")
-    div(v-for="obj, index in colorSettings" :key="obj.label")
-      ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
-      FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
-    button.resetButton(v-on:click='reset') Reset To Defaults
-  .icons
-    img.settings-icon(src='@/static/settings-black.svg' @click='toggleSettings()')
-    img.pointer-icon(v-if='firstOpen' src='@/static/arrow.png')
-    .icon-text(v-if='firstOpen') Click Here to Change Appearance!
+  .settings-container(:class='{settingsContainer__reveal: settingsOpen}')
+    .settings-title(:class="{ invertedBg: darkBg }") Settings
+      .icons
+        img.settings-icon(
+          :src="settingsIcon" 
+          @click='toggleSettings()'
+          :class="{ settingsIcon__inside: settingsOpen }"
+          )
+    .settings-panel
+      Locator(:timeZone="timeZone")
+      div(v-for="obj, index in colorSettings" :key="obj.label")
+        ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+        FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
+      button.resetButton(v-on:click='reset') Reset To Defaults
 </template>
 <script>
 import ColorOption from '@/components/ColorOption';
@@ -42,6 +44,20 @@ export default {
     }
   },
   computed: {
+    settingsIcon () {
+      if (this.$store.state.settings.page.bgColor.lightness < 50) {
+        return '/settings-white.svg';
+      } else {
+        return '/settings-black.svg';
+      }
+    },
+    darkBg () {
+      if (this.$store.state.settings.page.bgColor.lightness < 50) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     firstOpen () {
       if (!localStorage.getItem('clock-settings') && !this.settingsOpen) {
         return true;
@@ -102,23 +118,30 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Sunflower:300');
-.settings-bar {
+.settings-container {
   position: absolute;
-  height: 100vh;
-  width: 400px;
-  top: 0;
-  left: -400px;
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  left: -100%;
   transition: left 500ms;
-  background-color: #443939;
   font-family: 'Sunflower', sans-serif;
+  background-color: #393939;
+  z-index: 5;
+}
+@media screen and (min-width: 600px) {
+  .settings-container {
+    left: -400px;
+    width: 400px;
+  }
+}
+.settingsContainer__reveal {
+  left: 0!important;
 }
 .settings-panel {
-  position: relative;
+  display: block;
   overflow-y: auto;
-  height: 100%;
-}
-.settingsBar__reveal {
-  left: 0;
+  height: calc(100vh - 2.5em - 20px);
 }
 .icons {
   position: absolute;
@@ -133,6 +156,13 @@ export default {
   width: 60px;
   padding: 10px;
   cursor: pointer;
+  transition: left 500ms;
+}
+@media screen and (max-width: 599px) {
+  .settingsIcon__inside {
+    top: 0;
+    left: -60px!important;
+  }
 }
 .pointer-icon {
   position: absolute;
@@ -149,6 +179,10 @@ export default {
 .settings-title {
   background-color: white;
   padding: 10px;
+  border-bottom: 1px solid black;
+  font-size: 2.5em;
+  line-height: 1em;
+  text-align: center;
 }
 .color-box {
   display: inline-block;
@@ -159,7 +193,7 @@ export default {
 .resetButton {
   width: 100%;
   display: block;
-  font-size: 16px;
+  font-size: 1em;
   line-height: 3em;
   background: #000;
   color: white;
@@ -169,6 +203,11 @@ export default {
 }
 .resetButton:hover {
   background-color: #333;
-
+}
+@media screen and (max-width: 599px) {
+  .invertedBg {
+    background-color: black;
+    color: white;
+  }
 }
 </style>

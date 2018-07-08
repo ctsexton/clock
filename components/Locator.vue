@@ -1,16 +1,17 @@
 <template lang="pug">
-.locator-container
-  input.locator(
-    type="text" 
-    :placeholder="placeholder" 
-    @keydown.enter="selectZone" 
-    @keydown.down="down"
-    @keydown.up="up"
-    @focus="inputFlag = 1" 
-    @blur="onBlur" 
-    @input="input"
-    ref="locationInput"
-  )
+.component
+  .locator-container
+    input.locator(
+      type="text" 
+      :placeholder="placeholder" 
+      @keydown.enter="selectZone" 
+      @keydown.down="down"
+      @keydown.up="up"
+      @focus="inputFlag = 1" 
+      @blur="onBlur" 
+      @input="input"
+      ref="locationInput"
+    )
   .autocomplete
     .item(
       v-for="zone, index in suggestions" 
@@ -139,14 +140,15 @@ export default {
 }
 </script>
 <style scoped>
-.locator-container {
+.component {
   position: relative;
   display: block;
   background: white;
   width: 100%;
-  font-size: 16px;
+  font-size: 1em;
+}
+.locator-container {
   padding: 0.5em;
-  border-top: 1px solid black;
 }
 .locator {
   width: 100%;
@@ -161,14 +163,12 @@ export default {
   width: 100%;
   display: block;
   max-height: 10em;
-  font-size: 16px;
+  font-size: 1em;
   overflow-y: auto;
-  position: absolute;
-  top: 3em;
-  left: 0;
   background: white;
 }
 .item {
+  padding: 0 0.5em;
   width: 100%;
   display: block;
   line-height: 2.5em;

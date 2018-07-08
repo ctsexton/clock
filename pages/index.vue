@@ -1,12 +1,12 @@
 <template lang='pug'>
-  div
+  body 
+    Settings(:timeZone="timeZone")
     .container(:style="{background: `hsl(${bg.hue}, ${bg.saturation}%, ${bg.lightness}%)`}")
-      .title(:style="{color: `hsl(${clockColor.hue}, ${clockColor.saturation}%, ${clockColor.lightness}%)`, fontSize: $store.state.settings.title.fontSize + 'px'}") {{ time }}
-      .subtitle(:style="{color: `hsl(${dateColor.hue}, ${dateColor.saturation}%, ${dateColor.lightness}%)`, fontSize: $store.state.settings.dateTitle.fontSize + 'px'}") {{ date }}
-      .subtitle(:style="{color: `hsl(${locationColor.hue}, ${locationColor.saturation}%, ${locationColor.lightness}%)`, fontSize: $store.state.settings.locationTitle.fontSize + 'px'}") {{ timeZone.place }}
-      form(id="search" action="https://www.google.com/search" method="get")
+      .title(:style="{color: `hsl(${clockColor.hue}, ${clockColor.saturation}%, ${clockColor.lightness}%)`, fontSize: $store.state.settings.title.fontSize + 'vh'}") {{ time }}
+      .subtitle(:style="{color: `hsl(${dateColor.hue}, ${dateColor.saturation}%, ${dateColor.lightness}%)`, fontSize: $store.state.settings.dateTitle.fontSize + 'vh'}") {{ date }}
+      .subtitle(:style="{color: `hsl(${locationColor.hue}, ${locationColor.saturation}%, ${locationColor.lightness}%)`, fontSize: $store.state.settings.locationTitle.fontSize + 'vh'}") {{ timeZone.place }}
+      form.searchbox(id="search" action="https://www.google.com/search" method="get")
         input.searchbar(type="search" name="q" placeholder="Search Google")
-      Settings(:timeZone="timeZone")
 </template>
 
 <script>

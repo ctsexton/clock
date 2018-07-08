@@ -1,7 +1,7 @@
 <template lang="pug">
 .setting-container
   .text {{ label }}
-  input.slider.sizeSlider(type='range' min="1" max="200" :data-settingspath='settingsPath' :value='fontVal' @input="updateFont") 
+  input.slider.sizeSlider(type='range' min="1" max="20" :data-settingspath='settingsPath' :value='fontVal' @input="updateFont") 
 </template>
 <script>
 var _ = require('lodash');
@@ -43,7 +43,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   padding: 0 5px 0 10px;
-  font-size: 16px;
+  font-size: 1em;
   line-height: 2em;
   background-color: transparent;
 }

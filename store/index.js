@@ -20,7 +20,7 @@ const createStore = () => {
           },
         },
         title: {
-          fontSize: '100',
+          fontSize: '10',
           color: {
             hue: '250',
             saturation: '50',
@@ -28,7 +28,7 @@ const createStore = () => {
           },
         },
         subtitle: {
-          fontSize: '42',
+          fontSize: '5',
           color: {
             hue: '250',
             saturation: '50',
@@ -36,7 +36,7 @@ const createStore = () => {
           },
         },
         dateTitle: {
-          fontSize: '42',
+          fontSize: '5',
           color: {
             hue: '250',
             saturation: '50',
@@ -44,7 +44,7 @@ const createStore = () => {
           },
         },
         locationTitle: {
-          fontSize: '42',
+          fontSize: '5',
           color: {
             hue: '250',
             saturation: '50',
