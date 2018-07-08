@@ -1,6 +1,17 @@
 const pkg = require('./package')
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/dashboard/'
+  }
+} : {}
 
 module.exports = {
+  /*
+   * GitHub pages routing
+   */
+  ...routerBase,
+
+  // Mode
   mode: 'spa',
 
   /*
