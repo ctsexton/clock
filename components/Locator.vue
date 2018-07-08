@@ -2,16 +2,24 @@
 .locator-container
   input.locator(
     type="text" 
-    :placeholder="timeZone_readable" 
+    :value="placeholder" 
     @keydown.enter="selectZone" 
     @keydown.down="down"
     @keydown.up="up"
     @focus="inputFlag = 1" 
-    @blur="inputFlag = 0" 
-    @input="searchInput = $event.target.value"
+    @blur="onBlur" 
+    @input="input"
+    @click="clear"
+    ref="locationInput"
   )
   .autocomplete
-    .item(v-for="zone, index in suggestions" :class="{highlighted: isActive(index)}") {{ zone.place }}
+    .item(
+      v-for="zone, index in suggestions" 
+      :key="index"
+      :class="{highlighted: isActive(index)}" 
+      @mouseover="hoverZone(index)" 
+      @mousedown="selectZone"
+      ) {{ zone.place }}
 </template>
 <script>
 let zones = require('countries-and-timezones');
@@ -27,32 +35,57 @@ let toTitleCase = function (str) {
 export default {
   props: {
     timeZone: {
-      type: String,
+      type: Object,
       required: true
     },
-    timeZone_readable: {
-      type: String,
-        required: true
-    }
   },
   data () {
     return {
+      // 0 closes dropdown, 1 opens dropdown
       inputFlag: 0,
+      // input to search string
       searchInput: '',
-      selectedItem: 0
+      // currently selected in dropdown
+      selectedItem: 0,
+      // current placeholder text
+      placeholder: ''
     }
   },
   methods: {
-    // upon hitting enter, selected zone in input array is set
-    selectZone: function () {
+    // selected zone in input array is set
+    selectZone: function (e) {
       // remove this and replace with referance to zone array
-      let zone = this.suggestions[this.selectedItem].tZ;
-
+      let zone = this.suggestions[this.selectedItem];
+      // close autocomplete
+      this.inputFlag = 0;
+      // commit zone!
+      this.commitZone(zone);
+      // blur input
+      setTimeout(this.$refs.locationInput.blur(),1000);
+    },
+    commitZone: function (zone) {
       // commit zone to store
-      if (zoneNames.includes(zone)) {
+      if (zoneNames.includes(zone.tZ)) {
         this.$store.commit('updateTZ', zone);
-      } else {
       }
+    },
+    onBlur: function () {
+      setTimeout(() => {
+        this.inputFlag = 0;
+        this.searchInput = '';
+        this.setPlaceholder();
+      }, 0);
+    },
+    setPlaceholder: function () {
+      // load timezone into placeholder
+      this.placeholder = this.timeZone.place;
+      this.$refs.locationInput.value = '';
+    },
+    clear: function () {
+      this.placeholder = '';
+    },
+    hoverZone: function (index) {
+      this.selectedItem = index;
     },
     isActive: function (index) {
       return this.selectedItem === index;
@@ -67,12 +100,21 @@ export default {
         this.selectedItem--;
       }
     },
+    input: function (e) {
+      // set search string
+      this.searchInput = e.target.value;
+      // sync with text box 
+      this.placeholder = e.target.value;
+      // open dropdown
+      this.inputFlag = 1;
+    },
     search: function (searchString) {
       searchString = searchString.toUpperCase();
       let results = [];
       if (searchString && this.inputFlag) {
         results = zoneNames.filter((zone) => {
-          return zone.toUpperCase().indexOf(searchString) !== -1;
+          // get city and compare search string
+          return zone.split("/").reverse()[0].toUpperCase().indexOf(searchString) !== -1;
         });
       }
       // side effect - set selected result to first item on every search query
@@ -99,8 +141,10 @@ export default {
           place: this.toReadable(el)
         }});
       return list;
-
     },
+  },
+  mounted () {
+    this.setPlaceholder();
   }
 }
 </script>
@@ -137,11 +181,11 @@ export default {
 .item {
   width: 100%;
   display: block;
-  line-height: 1em;
-  height: 1.5em;
+  line-height: 2.5em;
+  cursor: pointer;
 }
 .highlighted {
-  background: black;
+  background: #09f;
   color: white;
 }
 </style>

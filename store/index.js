@@ -6,7 +6,10 @@ const createStore = () => {
       counter: 0,
       defaultSettings: {},
       settings: {
-        timeZone: 'America/Los_Angeles',
+        timeZone: {
+          tZ: 'America/Los_Angeles',
+          place: 'Los Angeles, United States'
+        },
         page: {
           fontSize: '100px',
           color: '#c4c0b3',
@@ -66,13 +69,11 @@ const createStore = () => {
         state.settings.timeZone = input;
       },
       initialiseSettings (state) {
-        setTimeout(function () {
-          state.defaultSettings = JSON.parse(JSON.stringify(state.settings));
-          if(localStorage.getItem('clock-settings')) {
-            // Replace settings with stored
-            Object.assign(state.settings, JSON.parse(localStorage.getItem('clock-settings')));
-          }
-        },0);
+        state.defaultSettings = JSON.parse(JSON.stringify(state.settings));
+        if(localStorage.getItem('clock-settings')) {
+          // Replace settings with stored
+          Object.assign(state.settings, JSON.parse(localStorage.getItem('clock-settings')));
+        }
       },
       resetSettings (state) {
         state.settings = JSON.parse(JSON.stringify(state.defaultSettings));

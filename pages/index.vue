@@ -3,10 +3,10 @@
     .container(:style="{background: `hsl(${bg.hue}, ${bg.saturation}%, ${bg.lightness}%)`}")
       .title(:style="{color: `hsl(${clockColor.hue}, ${clockColor.saturation}%, ${clockColor.lightness}%)`, fontSize: $store.state.settings.title.fontSize + 'px'}") {{ time }}
       .subtitle(:style="{color: `hsl(${dateColor.hue}, ${dateColor.saturation}%, ${dateColor.lightness}%)`, fontSize: $store.state.settings.dateTitle.fontSize + 'px'}") {{ date }}
-      .subtitle(:style="{color: `hsl(${locationColor.hue}, ${locationColor.saturation}%, ${locationColor.lightness}%)`, fontSize: $store.state.settings.locationTitle.fontSize + 'px'}") {{ timeZone_readable }}
+      .subtitle(:style="{color: `hsl(${locationColor.hue}, ${locationColor.saturation}%, ${locationColor.lightness}%)`, fontSize: $store.state.settings.locationTitle.fontSize + 'px'}") {{ timeZone.place }}
       form(id="search" action="https://www.google.com/search" method="get")
         input.searchbar(type="search" name="q" placeholder="Search Google")
-      Settings(:timeZone="timeZone" :timeZone_readable="timeZone_readable")
+      Settings(:timeZone="timeZone")
 </template>
 
 <script>
@@ -32,22 +32,17 @@ export default {
   },
   methods: {
     getTime: function () {
-      this.time = new Date().toLocaleString('en-US', {timeZone: this.timeZone, hour: 'numeric', minute: 'numeric', second: 'numeric'});
+      this.time = new Date().toLocaleString('en-US', {timeZone: this.timeZone.tZ, hour: 'numeric', minute: 'numeric', second: 'numeric'});
       setTimeout(this.getTime, 1000);
     },
   },
   computed: {
     date () {
-      return new Date().toLocaleString('en-US', {timeZone: this.timeZone, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+      return new Date().toLocaleString('en-US', {timeZone: this.timeZone.tZ, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
 
     },
     timeZone () {
       return this.$store.state.settings.timeZone;
-    },
-    timeZone_readable () {
-      let arr = this.timeZone.split("/");
-      let readableText = arr[1].split("_").join(" ") + ', ' + arr[0]; 
-      return readableText;
     },
     bg () {
       let obj = this.$store.state.settings.page;

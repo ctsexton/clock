@@ -2,7 +2,7 @@
 .settings-bar(:class='{settingsBar__reveal: settingsOpen}')
   .settings-panel
     .subtitle.settings-title Settings
-    Locator(:timeZone="timeZone" :timeZone_readable="timeZone_readable")
+    Locator(:timeZone="timeZone")
     div(v-for="obj, index in colorSettings" :key="obj.label")
       ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
       FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
@@ -24,13 +24,9 @@ export default {
   },
   props: {
     timeZone: {
-      type: String,
+      type: Object,
       required: true
     },
-    timeZone_readable: {
-      type: String,
-      required: true
-    }
   },
   data () {
     return {
