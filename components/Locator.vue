@@ -159,7 +159,8 @@ export default {
   position: relative;
 }
 .autocomplete {
-  z-index: 100;
+  position: absolute;
+  z-index: 1;
   width: 100%;
   display: block;
   max-height: 10em;
