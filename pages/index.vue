@@ -71,7 +71,9 @@ export default {
     this.getTime();
 
     this.$store.subscribe((mutation, state) => {
-      localStorage.setItem('clock-settings', JSON.stringify(this.$store.state.settings));
+      try {
+        localStorage.setItem('clock-settings', JSON.stringify(state.settings));
+      } catch (e) {}
     });
 
   },
