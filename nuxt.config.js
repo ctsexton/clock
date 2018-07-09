@@ -9,11 +9,7 @@ module.exports = {
   /*
    * GitHub pages routing
    */
-  router: {
-    base: '/dashboard/'
-  },
-
-  // Mode
+  ...routerBase,
   mode: 'spa',
 
   /*
