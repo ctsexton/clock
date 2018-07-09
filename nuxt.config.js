@@ -1,7 +1,7 @@
 const pkg = require('./package')
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   router: {
-    base: '/dashboard'
+    base: '/dashboard/'
   }
 } : {}
 
@@ -23,7 +23,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
   },
 
