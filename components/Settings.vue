@@ -46,9 +46,9 @@ export default {
   computed: {
     settingsIcon () {
       if (this.$store.state.settings.page.bgColor.lightness < 50) {
-        return '/settings-white.svg';
+        return 'settings-white.svg';
       } else {
-        return '/settings-black.svg';
+        return 'settings-black.svg';
       }
     },
     darkBg () {
