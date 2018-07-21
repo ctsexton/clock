@@ -3,7 +3,7 @@
   .locator-container
     input.locator(
       type="text" 
-      :placeholder="placeholder" 
+      :placeholder="timeZone.place" 
       @keydown.enter="selectZone" 
       @keydown.down="down"
       @keydown.up="up"
@@ -50,7 +50,18 @@ export default {
     }
   },
   methods: {
-    // selected zone in input array is set
+    /*
+     * Called on typing input to search box
+     */
+    input: function (e) {
+      // set search string
+      this.searchInput = e.target.value;
+      // sync with text box 
+      this.inputFlag = 1;
+    },
+    /*
+     * On enter/clicking on zone in dropdown list
+     */
     selectZone: function (e) {
       // remove this and replace with referance to zone array
       let zone = this.suggestions[this.selectedItem];
@@ -61,12 +72,43 @@ export default {
       // blur input
       this.$refs.locationInput.blur();
     },
+    // commit zone to Vuex store
     commitZone: function (zone) {
-      // commit zone to store
       if (zoneNames.includes(zone.tZ)) {
         this.$store.commit('updateTZ', zone);
       }
     },
+    /*
+     * Timezone search is performed on every keystroke
+     * Triggered by computed property: 'suggestions'
+     */
+    search: function (searchString) {
+      searchString = searchString.toUpperCase().replace(' ', '_');
+      let results = [];
+      if (searchString && this.inputFlag) {
+        results = zoneNames.filter((zone) => {
+          // get city and compare search string
+          return zone.toUpperCase().indexOf(searchString) !== -1;
+        });
+      }
+      // side effect - set selected result to first item on every search query
+      this.selectedItem = 0;
+      // returns a list of raw timezones matching the search string
+      return results;
+    },
+    /*
+     * Convert from timezone format to readable
+     * "Continent/City_Name" -> "City Name, Country"
+     */
+    toReadable: function (zone) {
+      let arr = zone.split("/");
+      let city = toTitleCase(arr[arr.length - 1].replace('_', ' '));
+      let country = zones.getCountriesForTimezone(zone)[0].name;
+      return city + ', ' + country;
+    },
+    /*
+     * Clear input box on unfocus
+     */
     onBlur: function () {
       this.inputFlag = 0;
       this.searchInput = '';
@@ -75,55 +117,34 @@ export default {
     clear: function () {
       this.$refs.locationInput.value = '';
     },
+    /*
+     * set selected item upon hover
+     */
     hoverZone: function (index) {
       this.selectedItem = index;
     },
+
+    // Highlight selected item in dropdown list
     isActive: function (index) {
       return this.selectedItem === index;
     },
+    // change selected item on down arrow press
     down: function () {
       if (this.selectedItem < this.suggestions.length - 1) {
         this.selectedItem++;
       }
     },
+    // change selected item on up arrow press
     up: function () {
       if (this.selectedItem > 0) {
         this.selectedItem--;
       }
     },
-    input: function (e) {
-      // set search string
-      this.searchInput = e.target.value;
-      // sync with text box 
-      this.placeholder = e.target.value;
-      // open dropdown
-      this.inputFlag = 1;
-    },
-    search: function (searchString) {
-      searchString = searchString.toUpperCase();
-      let results = [];
-      if (searchString && this.inputFlag) {
-        results = zoneNames.filter((zone) => {
-          // get city and compare search string
-          return zone.split("/").reverse()[0].toUpperCase().indexOf(searchString) !== -1;
-        });
-      }
-      // side effect - set selected result to first item on every search query
-      this.selectedItem = 0;
-      // returns a list of raw timezones matching the search string
-      return results;
-    },
-    
-    // convert timezone to human readable add city here??
-    toReadable: function (zone) {
-      let arr = zone.split("/");
-      let city = toTitleCase(arr[arr.length - 1].split("_").join(" "));
-      let country = zones.getCountriesForTimezone(zone)[0].name;
-      return city + ', ' + country;
-    },
   },
   computed: {
-    // contains array of autcomplete suggestions
+    /*
+     * Populate list of timezone suggestions based on search input
+     */
     suggestions () {
       let list = this.search(this.searchInput);
       list = list.map((el) => {
@@ -132,9 +153,6 @@ export default {
           place: this.toReadable(el)
         }});
       return list;
-    },
-    placeholder () {
-      return this.timeZone.place;
     },
   },
 }
@@ -145,7 +163,7 @@ export default {
   display: block;
   background: white;
   width: 100%;
-  font-size: 1em;
+  font-size: 16px;
 }
 .locator-container {
   padding: 0.5em;
@@ -154,9 +172,9 @@ export default {
   width: 100%;
   height: 2em;
   border: 1px solid #bbb;
-  font-size: 16px;
   padding: 5px;
   position: relative;
+  font-size: 1em;
 }
 .autocomplete {
   position: absolute;
