@@ -23,14 +23,7 @@
 </template>
 <script>
 let zones = require('countries-and-timezones');
-let timezones = zones.getAllTimezones();
-let zoneNames = Object.keys(timezones);
-// convert string To Title Case
-let toTitleCase = function (str) {
-    return str.replace(/\w\S*/g, function(txt){
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-};
+let zoneNames = Object.keys(zones.getAllTimezones());
 
 export default {
   props: {
@@ -58,16 +51,17 @@ export default {
       this.searchInput = e.target.value;
       // sync with text box 
       this.inputFlag = 1;
+      this.resetSel();
     },
     /*
      * On enter/clicking on zone in dropdown list
+     * Trigger actions to occur
      */
     selectZone: function (e) {
-      // remove this and replace with referance to zone array
       let zone = this.suggestions[this.selectedItem];
       // close autocomplete
       this.inputFlag = 0;
-      // commit zone!
+      // commit zone to Vuex store
       this.commitZone(zone);
       // blur input
       this.$refs.locationInput.blur();
@@ -84,17 +78,10 @@ export default {
      */
     search: function (searchString) {
       searchString = searchString.toUpperCase().replace(' ', '_');
-      let results = [];
-      if (searchString && this.inputFlag) {
-        results = zoneNames.filter((zone) => {
-          // get city and compare search string
-          return zone.toUpperCase().indexOf(searchString) !== -1;
-        });
-      }
-      // side effect - set selected result to first item on every search query
-      this.selectedItem = 0;
       // returns a list of raw timezones matching the search string
-      return results;
+      return zoneNames.filter((zone) => {
+        return zone.toUpperCase().indexOf(searchString) !== -1;
+      });
     },
     /*
      * Convert from timezone format to readable
@@ -102,9 +89,17 @@ export default {
      */
     toReadable: function (zone) {
       let arr = zone.split("/");
-      let city = toTitleCase(arr[arr.length - 1].replace('_', ' '));
+      let city = this.toTitleCase(arr[arr.length - 1].replace('_', ' '));
       let country = zones.getCountriesForTimezone(zone)[0].name;
       return city + ', ' + country;
+    },
+    /*
+     * Capitalize first letter of every word only
+     */
+    toTitleCase: function (str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
     },
     /*
      * Clear input box on unfocus
@@ -123,7 +118,12 @@ export default {
     hoverZone: function (index) {
       this.selectedItem = index;
     },
-
+    /*
+     * Reset selected item to first in list
+     */
+    resetSel: function () {
+      this.selectedItem = 0;
+    },
     // Highlight selected item in dropdown list
     isActive: function (index) {
       return this.selectedItem === index;
@@ -146,7 +146,7 @@ export default {
      * Populate list of timezone suggestions based on search input
      */
     suggestions () {
-      let list = this.search(this.searchInput);
+      let list = this.searchInput ? this.search(this.searchInput) : [];
       list = list.map((el) => {
         return {
           tZ: el,
