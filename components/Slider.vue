@@ -1,17 +1,14 @@
 <template lang="pug">
-input.slider(type="range" :min="min" :max="max" :data-settingspath="path" :data-type="type" :data-element="element" :value="value" @input="onInput")
+input.slider(type="range" :min="min" :max="max" :value="value" @input="$emit('slide', {name: name, val: $event.target.value})")
 </template>
 <script>
 export default {
   props: {
     min: String,
     max: String,
-    path: Array,
     value: String,
-    onInput: Function,
-    type: String,
-    element: Array,
-  }
+    name: String
+  },
 }
 </script>
 <style scoped>

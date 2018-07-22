@@ -1,67 +1,71 @@
 <template lang="pug">
-.container
-  .banner
-    .text {{ label }}
-    .choose-color(:style="{background: `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`}") 
-  HSL(v-on:transmit="updateColor" :element='settingsPath' :color="color")
-  .size(v-if="params.size")
-    .text Size:
-    Slider.sizeSlider(min="1" max="20" :path="settingsPath" :value="fontVal" :onInput="updateFont")
+.setting-container
+  .banner(@click="open = !open")
+    div {{ params.label }}
+    .choose-color(:style="{background: `hsl(${params.color.hue}, ${params.color.saturation}%, ${params.color.lightness}%)`}") 
+  .bay(:class="{bay__open: open}")
+    HSL(:element="identity" :color="params.color")
+    Size(v-if="params.size !== null" :element="identity" :size="params.size")
 </template>
 <script>
-import Slider from '@/components/Slider';
-import HSL from "@/components/HSL"
+import HSL from "@/components/HSL";
+import Size from "@/components/Size";
 export default {
   components: {
-    Slider,
-    HSL
+    HSL,
+    Size
   },
   props: {
-    label: {
-      type: String,
-      required: true
-    },
-    settingsPath: {
-      type: Array,
-      required: true
-    },
-    fontVal: {
-      type: String,
-      required: true
+    identity: String,
+    params: Object
+  },
+  data () {
+    return {
+      open: false
     }
-  },
-  methods: {
-    updateFont: function (e) {
-      let arr = e.target.dataset.settingspath.split(",");
-      let info = {
-        fontSize: e.target.value,
-        settingsPath: arr
-      };
-      this.$store.commit('updateFont', info);
-    },
-  },
+  }
 }
 </script>
 <style scoped>
-.setting-container {
+.banner {
+  background-color: #ddd;
+  color: black;
   display: flex;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0 10px;
+  line-height: 2em;
+  cursor: pointer;
+  border-top: 1px solid #aaa;
+}
+.banner:hover {
+  background-color: #eee;
+}
+.setting-container {
+  display: block;
   width: 100%;
-  padding: 0 5px 0 10px;
-  font-size: 1em;
+  font-size: 1.1em;
+  line-height: 2em;
   line-height: 2em;
   background-color: transparent;
 }
-.text {
-  text-align: left;
-  color: white;
+.bay {
+  padding: 0;
+  height: 0;
+  overflow: hidden;
 }
-.sizeSlider {
-  width: 80%;
-  background: #bbb;
-  height: 20px;
-  border-radius: 10px;
+.bay__open {
+  padding: 0.5em;
+  height: auto;
+}
+.choose-color {
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 </style>

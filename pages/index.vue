@@ -2,9 +2,9 @@
   body 
     Settings(:timeZone="timeZone")
     .container(:style="{background: `hsl(${bg.hue}, ${bg.saturation}%, ${bg.lightness}%)`}")
-      .title(:style="{color: `hsl(${clockColor.hue}, ${clockColor.saturation}%, ${clockColor.lightness}%)`, fontSize: $store.state.settings.title.fontSize + 'vh'}") {{ time }}
-      .subtitle(:style="{color: `hsl(${dateColor.hue}, ${dateColor.saturation}%, ${dateColor.lightness}%)`, fontSize: $store.state.settings.dateTitle.fontSize + 'vh'}") {{ date }}
-      .subtitle(:style="{color: `hsl(${locationColor.hue}, ${locationColor.saturation}%, ${locationColor.lightness}%)`, fontSize: $store.state.settings.locationTitle.fontSize + 'vh'}") {{ timeZone.place }}
+      .title(:style="{color: `hsl(${clockFormat.color.hue}, ${clockFormat.color.saturation}%, ${clockFormat.color.lightness}%)`, fontSize: `${clockFormat.size}` + 'vh'}") {{ time }}
+      .subtitle(:style="{color: `hsl(${dateFormat.color.hue}, ${dateFormat.color.saturation}%, ${dateFormat.color.lightness}%)`, fontSize: `${dateFormat.size}` + 'vh'}") {{ date }}
+      .subtitle(:style="{color: `hsl(${locationFormat.color.hue}, ${locationFormat.color.saturation}%, ${locationFormat.color.lightness}%)`, fontSize: `${locationFormat.size}` + 'vh'}") {{ timeZone.place }}
       form.searchbox(id="search" action="https://www.google.com/search" method="get")
         input.searchbar(type="search" name="q" placeholder="Search Google")
 </template>
@@ -13,14 +13,6 @@
 import Logo from '~/components/Logo.vue'
 import Settings from '@/components/Settings.vue'
 
-let objColor = function (path) {
-  let obj = path;
-  return {
-    hue: obj.color.hue,
-    saturation: obj.color.saturation,
-    lightness: obj.color.lightness
-  }
-}
 export default {
   components: {
     Settings
@@ -45,26 +37,16 @@ export default {
       return this.$store.state.settings.timeZone;
     },
     bg () {
-      let obj = this.$store.state.settings.page;
-      return {
-        hue: obj.bgColor.hue,
-        saturation: obj.bgColor.saturation,
-        lightness: obj.bgColor.lightness
-      }
+      return this.$store.state.settings.elements.background.color;
     },
-    clockColor () {
-      return objColor(this.$store.state.settings.title);
+    clockFormat () {
+      return this.$store.state.settings.elements.clock;
     },
-    dateColor () {
-      return objColor(this.$store.state.settings.dateTitle);
+    dateFormat () {
+      return this.$store.state.settings.elements.date;
     },
-    locationColor () {
-      let obj = this.$store.state.settings.locationTitle;
-      return {
-        hue: obj.color.hue,
-        saturation: obj.color.saturation,
-        lightness: obj.color.lightness
-      }
+    locationFormat () {
+      return this.$store.state.settings.elements.place;
     },
   },
   mounted: function () {
@@ -72,7 +54,7 @@ export default {
 
     this.$store.subscribe((mutation, state) => {
       try {
-        localStorage.setItem('clock-settings', JSON.stringify(state.settings));
+        localStorage.setItem('settings_21_07_18', JSON.stringify(state.settings));
       } catch (e) {}
     });
 

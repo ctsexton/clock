@@ -10,47 +10,44 @@ const createStore = () => {
           tZ: 'America/Los_Angeles',
           place: 'Los Angeles, United States'
         },
-        page: {
-          fontSize: '100px',
-          color: '#c4c0b3',
-          bgColor: {
-            hue: '200',
-            saturation: '100',
-            lightness: '50'
+        elements: {
+          background: {
+            label: 'Background',
+            color: {
+              hue: '200',
+              saturation: '100',
+              lightness: '50'
+            },
+            size: null
+          },
+          clock: {
+            label: 'Clock',
+            color: {
+              hue: '250',
+              saturation: '50',
+              lightness: '30'
+            },
+            size: '10'
+          },
+          date: {
+            label: 'Date',
+            color: {
+              hue: '250',
+              saturation: '50',
+              lightness: '50'
+            },
+            size: '5'
+          },
+          place: {
+            label: 'Location',
+            color: {
+              hue: '250',
+              saturation: '50',
+              lightness: '50'
+            },
+            size: '5'
           },
         },
-        title: {
-          fontSize: '10',
-          color: {
-            hue: '250',
-            saturation: '50',
-            lightness: '30'
-          },
-        },
-        subtitle: {
-          fontSize: '5',
-          color: {
-            hue: '250',
-            saturation: '50',
-            lightness: '50'
-          },
-        },
-        dateTitle: {
-          fontSize: '5',
-          color: {
-            hue: '250',
-            saturation: '50',
-            lightness: '50'
-          },
-        },
-        locationTitle: {
-          fontSize: '5',
-          color: {
-            hue: '250',
-            saturation: '50',
-            lightness: '50'
-          },
-        }
       },
     },
     mutations: {
@@ -58,21 +55,19 @@ const createStore = () => {
         state.counter++
       },
       updateColor (state, info) {
-        let path = info.path;
-        state.settings[path[0]][path[1]][info.type] = info.value;
+        state.settings.elements[info.element].color[info.name] = info.val;
       },
       updateFont (state, info) {
-        let path = info.settingsPath;
-        state.settings[path[0]][path[1]] = info.fontSize;
+        state.settings.elements[info.element].size = info.val;
       },
       updateTZ (state, input) {
         state.settings.timeZone = input;
       },
       initialiseSettings (state) {
         state.defaultSettings = JSON.parse(JSON.stringify(state.settings));
-        if(localStorage.getItem('clock-settings')) {
+        if(localStorage.getItem('settings_21_07_18')) {
           // Replace settings with stored
-          Object.assign(state.settings, JSON.parse(localStorage.getItem('clock-settings')));
+          Object.assign(state.settings, JSON.parse(localStorage.getItem('settings_21_07_18')));
         }
       },
       resetSettings (state) {

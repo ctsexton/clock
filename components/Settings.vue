@@ -9,20 +9,16 @@
           )
     .settings-panel
       Locator(:timeZone="timeZone")
-      .option(v-for="obj, index in colorSettings" :key="obj.label")
-        ColorOption(:label="obj.label" :settingsPath="obj.dataset" :color="obj.val")
-        FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
+      Option(v-for="option, index in options" :key="option.label" :params="option" :identity="index")
       button.resetButton(v-on:click='reset') Reset To Defaults
 </template>
 <script>
-import ColorOption from '@/components/ColorOption';
-import FontOption from '@/components/FontOption';
 import Locator from '@/components/Locator';
+import Option from '@/components/Option'
 export default {
   components: {
-    ColorOption,
-    FontOption,
-    Locator
+    Locator,
+    Option
   },
   props: {
     timeZone: {
@@ -42,60 +38,16 @@ export default {
   },
   computed: {
     nightMode () {
-      if (this.$store.state.settings.page.bgColor.lightness < 50) {
+      if (this.$store.state.settings.elements.background.color.lightness < 50) {
         return true;
       } else {
         return false;
       }
     },
-    colorSettings () {
-      return [
-        { 
-          label: 'Background',
-          dataset: ["page", "bgColor"],
-          val: this.$store.state.settings.page.bgColor
-        },
-        { 
-          label: 'Time',
-          dataset: ["title", "color"],
-          val: this.$store.state.settings.title.color
-        },
-        { 
-          label: 'Date',
-          dataset: ["dateTitle", "color"],
-          val: this.$store.state.settings.dateTitle.color
-        },
-        { 
-          label: 'Location',
-          dataset: ["locationTitle", "color"],
-          val: this.$store.state.settings.locationTitle.color
-        },
-      ];
+    options () {
+      let options = this.$store.state.settings.elements;
+      return options;
     },
-    fontSettings () {
-      return [
-        {
-          label: null,
-          dataset: null,
-          val: null
-        },
-        {
-          label: 'Size',
-          dataset: ["title", "fontSize"],
-          val: this.$store.state.settings.title.fontSize
-        },
-        {
-          label: 'Size',
-          dataset: ["dateTitle", "fontSize"],
-          val: this.$store.state.settings.dateTitle.fontSize
-        },
-        {
-          label: 'Size',
-          dataset: ["locationTitle", "fontSize"],
-          val: this.$store.state.settings.locationTitle.fontSize
-        }
-      ];
-    }
   },
 }
 </script>
