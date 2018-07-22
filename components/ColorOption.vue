@@ -2,14 +2,14 @@
 div
   .setting-container
     .text {{ label }}
-    .choose-color(:style="{background: `hsl(${hueVal}, ${satVal}%, ${lightVal}%)`}") 
-  ColorSlider(v-on:transmit="updateColor" :element='settingsPath' :hueVal="hueVal" :satVal="satVal" :lightVal="lightVal")
+    .choose-color(:style="{background: `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`}") 
+  HSL(v-on:transmit="updateColor" :element='settingsPath' :color="color")
 </template>
 <script>
-import ColorSlider from "@/components/ColorSlider"
+import HSL from "@/components/HSL"
 export default {
   components: {
-    ColorSlider
+    HSL 
   },
   props: {
     label: {
@@ -20,7 +20,7 @@ export default {
       type: Array,
       required: true
     },
-    colorVal: {
+    color: {
       type: Object,
       required: true
     }
@@ -33,17 +33,6 @@ export default {
       console.log(value);
     }
   },
-  computed: {
-    hueVal () {
-      return this.colorVal.hue;
-    },
-    satVal () {
-      return this.colorVal.saturation;
-    },
-    lightVal () {
-      return this.colorVal.lightness;
-    }
-  }
 }
 </script>
 <style scoped>

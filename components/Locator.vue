@@ -7,7 +7,6 @@
       @keydown.enter="selectZone" 
       @keydown.down="down"
       @keydown.up="up"
-      @focus="inputFlag = 1" 
       @blur="onBlur" 
       @input="input"
       ref="locationInput"
@@ -34,8 +33,6 @@ export default {
   },
   data () {
     return {
-      // 0 closes dropdown, 1 opens dropdown
-      inputFlag: 0,
       // input to search string
       searchInput: '',
       // currently selected in dropdown
@@ -50,7 +47,6 @@ export default {
       // set search string
       this.searchInput = e.target.value;
       // sync with text box 
-      this.inputFlag = 1;
       this.resetSel();
     },
     /*
@@ -59,8 +55,6 @@ export default {
      */
     selectZone: function (e) {
       let zone = this.suggestions[this.selectedItem];
-      // close autocomplete
-      this.inputFlag = 0;
       // commit zone to Vuex store
       this.commitZone(zone);
       // blur input
@@ -105,7 +99,6 @@ export default {
      * Clear input box on unfocus
      */
     onBlur: function () {
-      this.inputFlag = 0;
       this.searchInput = '';
       this.clear();
     },
@@ -163,7 +156,7 @@ export default {
   display: block;
   background: white;
   width: 100%;
-  font-size: 16px;
+  font-size: 1em;
 }
 .locator-container {
   padding: 0.5em;
@@ -172,7 +165,7 @@ export default {
   width: 100%;
   height: 2em;
   border: 1px solid #bbb;
-  padding: 5px;
+  padding: 0.5em;
   position: relative;
   font-size: 1em;
 }

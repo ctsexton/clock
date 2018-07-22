@@ -1,22 +1,20 @@
 <template lang="pug">
-.setting-container
-  .text {{ label }}
-  Slider.sizeSlider(min="1" max="20" :path="settingsPath" :value="fontVal" :onInput="updateFont")
+.container
+  .banner
+    .text {{ label }}
+    .choose-color(:style="{background: `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`}") 
+  HSL(v-on:transmit="updateColor" :element='settingsPath' :color="color")
+  .size(v-if="params.size")
+    .text Size:
+    Slider.sizeSlider(min="1" max="20" :path="settingsPath" :value="fontVal" :onInput="updateFont")
 </template>
 <script>
-var _ = require('lodash');
-let updateThrottle = _.throttle(function (e) { 
-  let arr = e.target.dataset.settingspath.split(",");
-  let info = {
-    fontSize: e.target.value,
-    settingsPath: arr
-  };
-  this.$store.commit('updateFont', info);
-}, 70);
 import Slider from '@/components/Slider';
+import HSL from "@/components/HSL"
 export default {
   components: {
-    Slider
+    Slider,
+    HSL
   },
   props: {
     label: {
@@ -34,7 +32,12 @@ export default {
   },
   methods: {
     updateFont: function (e) {
-      updateThrottle.call(this, e);
+      let arr = e.target.dataset.settingspath.split(",");
+      let info = {
+        fontSize: e.target.value,
+        settingsPath: arr
+      };
+      this.$store.commit('updateFont', info);
     },
   },
 }
@@ -54,7 +57,6 @@ export default {
 .text {
   text-align: left;
   color: white;
-
 }
 .sizeSlider {
   width: 80%;

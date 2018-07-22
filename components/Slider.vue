@@ -1,3 +1,20 @@
+<template lang="pug">
+input.slider(type="range" :min="min" :max="max" :data-settingspath="path" :data-type="type" :data-element="element" :value="value" @input="onInput")
+</template>
+<script>
+export default {
+  props: {
+    min: String,
+    max: String,
+    path: Array,
+    value: String,
+    onInput: Function,
+    type: String,
+    element: Array,
+  }
+}
+</script>
+<style scoped>
 .slider {
     -webkit-appearance: none;  /* Override default CSS styles */
     appearance: none;
@@ -36,3 +53,4 @@
 .slider::-moz-range-track {
   background: transparent;
 }
+</style>

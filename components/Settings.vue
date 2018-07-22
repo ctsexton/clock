@@ -1,16 +1,16 @@
 <template lang="pug">
   .settings-container(:class='{settingsContainer__reveal: settingsOpen}')
-    .settings-title(:class="{ invertedBg: darkBg }") Settings
+    .settings-title(:class="{ invertedBg: nightMode }") Settings
       .icons
         img.settings-icon(
-          :src="settingsIcon" 
-          @click='toggleSettings()'
+          :src="nightMode ? 'settings-white.svg' : 'settings-black.svg'" 
+          @click="settingsOpen = !settingsOpen"
           :class="{ settingsIcon__inside: settingsOpen }"
           )
     .settings-panel
       Locator(:timeZone="timeZone")
-      div(v-for="obj, index in colorSettings" :key="obj.label")
-        ColorOption(:label="obj.label" :settingsPath="obj.dataset" :colorVal="obj.val")
+      .option(v-for="obj, index in colorSettings" :key="obj.label")
+        ColorOption(:label="obj.label" :settingsPath="obj.dataset" :color="obj.val")
         FontOption(v-if="fontSettings[index].label !== null" :label="fontSettings[index].label" :settingsPath="fontSettings[index].dataset" :fontVal="fontSettings[index].val")
       button.resetButton(v-on:click='reset') Reset To Defaults
 </template>
@@ -36,30 +36,13 @@ export default {
     }
   },
   methods: {
-    toggleSettings: function () {
-      this.settingsOpen = !this.settingsOpen;
-    },
     reset: function () {
       this.$store.commit('resetSettings');
     }
   },
   computed: {
-    settingsIcon () {
+    nightMode () {
       if (this.$store.state.settings.page.bgColor.lightness < 50) {
-        return 'settings-white.svg';
-      } else {
-        return 'settings-black.svg';
-      }
-    },
-    darkBg () {
-      if (this.$store.state.settings.page.bgColor.lightness < 50) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    firstOpen () {
-      if (!localStorage.getItem('clock-settings') && !this.settingsOpen) {
         return true;
       } else {
         return false;
@@ -122,26 +105,31 @@ export default {
   position: absolute;
   display: block;
   width: 100%;
+  left: 0;
+  top: 0;
+  transform: translateX(-100%);
   min-height: 100vh;
-  left: -100%;
-  transition: left 500ms;
+  transition: transform 500ms;
   font-family: 'Sunflower', sans-serif;
-  background-color: #393939;
+  font-size: 1rem;
+  background-color: #303030;
   z-index: 5;
 }
 @media screen and (min-width: 600px) {
   .settings-container {
-    left: -400px;
-    width: 400px;
+    width: 20vw;
+    min-width: 500px;
   }
 }
 .settingsContainer__reveal {
-  left: 0!important;
+  transform: translateX(0%);
 }
 .settings-panel {
   display: block;
   overflow-y: auto;
   height: calc(100vh - 2.5em - 20px);
+}
+.option {
 }
 .icons {
   position: absolute;
@@ -164,18 +152,6 @@ export default {
     left: -60px!important;
   }
 }
-.pointer-icon {
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  width: 75px;
-}
-.icon-text {
-  position: absolute;
-  top: 100px;
-  left: 125px;
-  width: 200px;
-}
 .settings-title {
   background-color: white;
   padding: 10px;
@@ -183,12 +159,6 @@ export default {
   font-size: 2.5em;
   line-height: 1em;
   text-align: center;
-}
-.color-box {
-  display: inline-block;
-  min-height: 1em;
-  min-width: 50px;
-  margin: 0 0 0 20px;
 }
 .resetButton {
   width: 100%;
@@ -202,7 +172,7 @@ export default {
   font-family: 'Sunflower', sans-serif;
 }
 .resetButton:hover {
-  background-color: #333;
+  background-color: #222;
 }
 @media screen and (max-width: 599px) {
   .invertedBg {
