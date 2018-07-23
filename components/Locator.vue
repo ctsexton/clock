@@ -62,10 +62,10 @@ export default {
       // blur input
       this.$refs.locationInput.blur();
     },
-    // check is Zone is valid in client browser
+    // check if Zone is valid in client browser
     checkZone: function (zone) {
       try {
-        new Date().toLocaleString('en-US', {timeZone: zone.tZ, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+        new Date().toLocaleString('en-US', {timeZone: zone.tZ});
         return true;
       } catch (e) {
         alert("Timezone not supported in your browser");
