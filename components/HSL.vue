@@ -1,5 +1,5 @@
 <template lang="pug">
-.color-panel
+div
   Slider.color-wheel(@slide="update" name="hue" :value="color.hue" min="0" max="360" :style="{backgroundImage: `linear-gradient(90deg, hsl(0, 100%, 50%), hsl(30, 100%, 50%), hsl(60, 100%, 50%), hsl(90, 100%, 50%), hsl(120, 100%, 50%), hsl(150, 100%, 50%), hsl(180, 100%, 50%), hsl(210, 100%, 50%), hsl(240, 100%, 50%), hsl(270, 100%, 50%), hsl(300, 100%, 50%), hsl(330, 100%, 50%), hsl(360, 100%, 50%))`}")
   Slider.color-wheel(@slide="update" name="saturation" :value="color.saturation" min="0" max="100" :style="{backgroundImage: `linear-gradient(90deg, hsl(${color.hue}, 0%, ${color.lightness}%), hsl(${color.hue}, 100%, ${color.lightness}%))`}")
   Slider.color-wheel(@slide="update" name="lightness" :value="color.lightness" min="0" max="100" :style="{backgroundImage: `linear-gradient(90deg, hsl(${color.hue}, ${color.saturation}%, 0%), hsl(${color.hue}, ${color.saturation}%, 100%))`}")
@@ -30,8 +30,6 @@ export default {
 }
 </script>
 <style scoped>
-.color-panel {
-}
 .color-wheel {
   display: block;
   width: 100%;

@@ -19,17 +19,17 @@
   "dependencies": {
     "countries-and-timezones": "^1.0.1",
     "lodash": "^4.17.10",
-    "node-sass": "^4.9.1",
+    "node-sass": "^4.9.2",
     "nuxt": "^1.0.0",
     "sass-loader": "^7.0.3",
     "timezone-list": "^0.2.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^8.2.6",
     "cross-env": "^5.0.1",
     "eslint": "^4.15.0",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^4.0.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-vue": "^4.7.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "push-dir": "^0.4.1"

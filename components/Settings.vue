@@ -81,7 +81,13 @@ export default {
   overflow-y: auto;
   height: calc(100vh - 2.5em - 20px);
 }
-.option {
+.settings-title {
+  background-color: white;
+  padding: 10px;
+  border-bottom: 1px solid black;
+  font-size: 2.5em;
+  line-height: 1em;
+  text-align: center;
 }
 .icons {
   position: absolute;
@@ -103,14 +109,6 @@ export default {
     top: 0;
     left: -60px!important;
   }
-}
-.settings-title {
-  background-color: white;
-  padding: 10px;
-  border-bottom: 1px solid black;
-  font-size: 2.5em;
-  line-height: 1em;
-  text-align: center;
 }
 .resetButton {
   width: 100%;

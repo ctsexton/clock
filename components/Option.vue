@@ -2,7 +2,7 @@
 .setting-container
   .banner(@click="open = !open")
     div {{ params.label }}
-    .choose-color(:style="{background: `hsl(${params.color.hue}, ${params.color.saturation}%, ${params.color.lightness}%)`}") 
+    .color-square(:style="{background: `hsl(${params.color.hue}, ${params.color.saturation}%, ${params.color.lightness}%)`}") 
   .bay(:class="{bay__open: open}")
     HSL(:element="identity" :color="params.color")
     Size(v-if="params.size !== null" :element="identity" :size="params.size")
@@ -60,7 +60,7 @@ export default {
   padding: 0.5em;
   height: auto;
 }
-.choose-color {
+.color-square {
   display: inline-block;
   min-height: 1.5em;
   min-width: 1.5em;
