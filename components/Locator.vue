@@ -55,10 +55,22 @@ export default {
      */
     selectZone: function (e) {
       let zone = this.suggestions[this.selectedItem];
-      // commit zone to Vuex store
-      this.commitZone(zone);
+      if (this.checkZone(zone)) {
+        // commit zone to Vuex store
+        this.commitZone(zone);
+      }
       // blur input
       this.$refs.locationInput.blur();
+    },
+    // check is Zone is valid in client browser
+    checkZone: function (zone) {
+      try {
+        new Date().toLocaleString('en-US', {timeZone: zone.tZ, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+        return true;
+      } catch (e) {
+        alert("Timezone not supported in your browser");
+        return false;
+      }
     },
     // commit zone to Vuex store
     commitZone: function (zone) {

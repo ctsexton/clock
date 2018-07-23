@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
 import Settings from '@/components/Settings.vue'
 
 export default {
